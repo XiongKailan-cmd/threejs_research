@@ -1,6 +1,9 @@
 <script setup>
 import { onBeforeMount, ref } from 'vue';
+import { RouterView, useRouter } from 'vue-router';
 import { routes } from '../router';
+
+const router = useRouter();
 
 const options = ref([]);
 
@@ -9,11 +12,12 @@ onBeforeMount(() => {
     content: route.meta.title + "  " + route.path,
     value: route.path,
   }));
-  console.log(options.value);
 });
 
 const clickHandler = (dropdownItem, content) => {
-  console.log(dropdownItem, content);
+  router.push({
+    path: dropdownItem.value,
+  });
 };
 
 </script>
@@ -31,7 +35,7 @@ const clickHandler = (dropdownItem, content) => {
         </t-space>
       </t-dropdown>
     </t-header>
-    <t-content class="!w-full">
+    <t-content class="!w-full" ref="content">
         <RouterView />
     </t-content>
   </t-layout>
