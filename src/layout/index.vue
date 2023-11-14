@@ -24,7 +24,7 @@ const clickHandler = (dropdownItem, content) => {
 
 <template>
   <t-layout class="flex flex-col h-screen">
-    <t-header class="flex flex-row h-16 justify-start items-center px-12 gap-8" >
+    <t-header class="flex flex-row !h-16 justify-start items-center px-12 gap-8" >
       <img width="136" height="48" src="https://www.tencent.com/img/index/menu_logo_hover.png" alt="logo" />
       <t-dropdown :options="options" :maxColumnWidth="200" trigger="click" @click="clickHandler">
         <t-space>
