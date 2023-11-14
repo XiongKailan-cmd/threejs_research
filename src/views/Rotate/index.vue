@@ -52,9 +52,10 @@ const exmple = () => {
   // 设置位移 （局部位移 - 相对于父级元素）
   parentCube.position.set(0,0,0);
   cube.position.set(3,0,0);
-
   // 设置缩放（局部缩放 - 相对于父级元素）
   cube.scale.set(2,2,2);
+  // 旋转（局部旋转 - 相对于父级元素）
+  cube.rotation.set( Math.PI / 4,Math.PI / 4,Math.PI / 4);
   
   // 子cube引入父级cube
   parentCube.add(cube);
