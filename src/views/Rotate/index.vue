@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: '缩放和位移'
+  name: '旋转'
 }
 </script>
 <script setup>
@@ -50,13 +50,12 @@ const exmple = () => {
   const cube = new THREE.Mesh(geometry, material);
   const parentCube = new THREE.Mesh(geometry, materialParent);
   // 设置位移 （局部位移 - 相对于父级元素）
-  parentCube.position.set(-3,0,0);
+  parentCube.position.set(0,0,0);
   cube.position.set(3,0,0);
 
   // 设置缩放（局部缩放 - 相对于父级元素）
   cube.scale.set(2,2,2);
   
-
   // 子cube引入父级cube
   parentCube.add(cube);
 
