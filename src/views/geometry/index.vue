@@ -50,11 +50,11 @@ const geometry = () => {
 
   // 定义index集合
   const vertices = new Float32Array([
-    -1, -1, 0,1,-1,0,1,1,0,-1,1,0
+    -1, -1, 0,1,-1,0,1,1,0,-1,1,0,1,1,1
   ]);
   geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
   const indices = new Uint16Array([
-    0,1,2,2,3,0
+    0,1,2,2,3,0,2,1,4,4,0,1,4,1,3,4,3,2
   ]);
   geometry.setIndex(new THREE.BufferAttribute(indices, 1));
   
