@@ -47,6 +47,7 @@ const geometry = () => {
   //   -1, -1, 0,1,-1,0,1,1,0,1,1,0,-1,1,0,-1,-1,0
   // ]);
   // geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
+
   // 定义index集合
   const vertices = new Float32Array([
     -1, -1, 0,1,-1,0,1,1,0,-1,1,0
@@ -57,7 +58,9 @@ const geometry = () => {
   ]);
   geometry.setIndex(new THREE.BufferAttribute(indices, 1));
   
+  // 定义材质
   const material = new THREE.MeshBasicMaterial({ color: 0x00ff00, side: THREE.DoubleSide, wireframe: true });
+  // 定义网格
   const cube = new THREE.Mesh(geometry, material);
 
   new OrbitControls(camera, renderer.domElement);
