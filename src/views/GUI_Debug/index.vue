@@ -14,12 +14,12 @@ export default {
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { GUI } from 'three/examples/jsm/libs/lil-gui.module.min.js';
-import { onMounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 
 const box = ref(null);
 
 onMounted(() => {
-  exmple()
+  exmple();
   // box.value.addEventListener('resize', exmple())
 })
 
@@ -28,6 +28,12 @@ const camera = ref(null);
 
 // 渲染器
 const renderer = ref(null);
+
+// 子网格
+const cube = ref(null);
+
+// gui
+const gui = ref(null);
 
 const exmple = () => {
   const domRect = box.value.getBoundingClientRect();
@@ -84,33 +90,34 @@ const exmple = () => {
     controls.update();
     renderer.value.render(scene, camera.value);
   };
+  const guiSetting = () => {
+    gui.value = new GUI();
+    gui.value.parent = document.querySelector('#box');
+    gui.value.add(oprate, 'clickFullScreen').name('全屏');
+    gui.value.add(oprate, 'exitFullScreen').name('退出全屏');
+    const folder = gui.value.addFolder('相机位置');
+    folder.add(cube.position, 'x', -10, 10).name('相机x轴位置').step(1);
+    folder.add(cube.position, 'y', -10, 10).name('相机y轴位置').onChange((val) => {
+      console.log(val)
+    });
+    folder.add(cube.position, 'z', -10, 10).name('相机z轴位置').onFinishChange((val) => {
+      console.log(val)
+    });
+    gui.value.add(material, 'wireframe').name('子元素线框模式');
 
-  camera.value.position.z = 10;
-  camera.value.lookAt(0,0,0)
-  animate()
+    const cubeParams ={
+      cubeColor: '#ff0000',
+    }
 
-  const gui = new GUI();
-  gui.add(oprate, 'clickFullScreen').name('全屏');
-  gui.add(oprate, 'exitFullScreen').name('退出全屏');
-  const folder = gui.addFolder('相机位置');
-  folder.add(cube.position, 'x', -10, 10).name('相机x轴位置').step(1);
-  folder.add(cube.position, 'y', -10, 10).name('相机y轴位置').onChange((val) => {
-    console.log(val)
-  });
-  folder.add(cube.position, 'z', -10, 10).name('相机z轴位置').onFinishChange((val) => {
-    console.log(val)
-  });
-  gui.add(material, 'wireframe').name('子元素线框模式');
-
-  const cubeParams ={
-    cubeColor: '#ff0000',
+    gui.value.addColor(cubeParams, "cubeColor").name('父元素颜色').onFinishChange((val) => {
+      materialParent.color.set(val)
+    });
   }
 
-  gui.addColor(cubeParams, "cubeColor").name('父元素颜色').onFinishChange((val) => {
-    materialParent.color.set(val)
-  });
-
-
+  camera.value.position.z = 10;
+  camera.value.lookAt(0,0,0);
+  animate();
+  guiSetting();
   window.addEventListener('resize', () => {
     const domRect = box.value.getBoundingClientRect();
     const width = domRect.width;
@@ -124,6 +131,8 @@ const exmple = () => {
   });
 
 }
+
+
 
 const clickFullScreen = () => {
   // renderer.value.domElement.requestFullscreen();
@@ -139,6 +148,11 @@ const oprate = {
   exitFullScreen
 }
 
+onUnmounted(() => {
+  window.removeEventListener('resize', (...params) => {
+    console.log('resize',params);
+  });
+})
 
 
 </script>
