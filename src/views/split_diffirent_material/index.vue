@@ -32,7 +32,7 @@ const geometry = () => {
     0.1,
     1000
   )
-  camera.position.set(5,1,1);
+  camera.position.set(5,5,8);
   camera.lookAt(0,0,0);
   
 
