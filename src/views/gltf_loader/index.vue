@@ -11,7 +11,9 @@ export default {
 <script setup >
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
 import { onMounted, ref } from 'vue';
 
 const box = ref(null)
@@ -39,7 +41,7 @@ const init = () => {
 
   /** 创建RGBELoader */
   // const rgbeLoader = new RGBELoader();
-  // rgbeLoader.load('/public/texture/Alex_Hart-Nature_Lab_Bones_2k.hdr', (envMap) => {
+  // rgbeLoader.load('/public/textures/Alex_Hart-Nature_Lab_Bones_2k.hdr', (envMap) => {
   //   // 球形映射
   //   envMap.mapping = THREE.EquirectangularReflectionMapping;
   //   // 环境贴图
@@ -59,19 +61,45 @@ const init = () => {
   // scene.add( light );
 
   /** 创建点光源 */
-  const light = new THREE.PointLight( 0xffffff, 1 );
-  light.add(new THREE.Mesh(new THREE.SphereGeometry(0.05, 16, 8), new THREE.MeshBasicMaterial({ color: 0xffffff })) );
-  light.position.set( 5, 5, -5 );
-  light.scale.set( 10,10,10 );
-  console.log(light);
-  scene.add( light );
+  // const light = new THREE.PointLight( 0xffffff, 1 );
+  // light.add(new THREE.Mesh(new THREE.SphereGeometry(0.05, 16, 8), new THREE.MeshBasicMaterial({ color: 0xffffff })) );
+  // light.position.set( 5, 5, -5 );
+  // light.scale.set( 10,10,10 );
+  // console.log(light);
+  // scene.add( light );
+  scene.fog = new THREE.Fog(0x999999, 0.1, 50);
+  scene.background = new THREE.Color(0x999999);
+  
 
   // 创建模型加载器
   const gltfLoader = new GLTFLoader();
+  // 图形解码器
+  const dracoLoader = new DRACOLoader();
+  dracoLoader.setDecoderPath('/public/draco/');
+  gltfLoader.setDRACOLoader(dracoLoader);
+
+
+
   gltfLoader.load('/public/model/Duck.glb', (gltf) => {
     console.log(gltf);
     // gltf.scene.
     scene.add(gltf.scene);
+  });
+
+
+
+  gltfLoader.load('/public/model/city.glb', (gltf) => {
+    console.log(gltf);
+    // gltf.scene.
+    scene.add(gltf.scene);
+  });
+
+  const rgbeLoader = new RGBELoader();
+  rgbeLoader.load('/public/textures/Alex_Hart-Nature_Lab_Bones_2k.hdr', (envMap) => {
+    // 球形映射
+    envMap.mapping = THREE.EquirectangularReflectionMapping;
+    // 环境贴图
+    scene.environment = envMap;
   });
 
 

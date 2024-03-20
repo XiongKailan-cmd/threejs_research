@@ -41,19 +41,19 @@ const init = () => {
   // 纹理加载器
   const loader = new THREE.TextureLoader(); 
   // 加载纹理
-  const texture = loader.load('/public/texture/watercover/CityNewYork002_COL_VAR1_1K.png');
+  const textures = loader.load('/public/textures/watercover/CityNewYork002_COL_VAR1_1K.png');
   // 设置纹理彩色空间
-  // texture.colorSpace = THREE.SRGBColorSpace;
+  // textures.colorSpace = THREE.SRGBColorSpace;
   // 环境遮挡贴图
-  const aoMap = loader.load('/public/texture/watercover/CityNewYork002_AO_1K.jpg');
+  const aoMap = loader.load('/public/textures/watercover/CityNewYork002_AO_1K.jpg');
   // 透明度贴图
-  const alphaMap = loader.load('/public/texture/door/height.jpg');
+  const alphaMap = loader.load('/public/textures/door/height.jpg');
   // 光照贴图
-  const lightMap = loader.load('/public/texture/colors.png');
+  const lightMap = loader.load('/public/textures/colors.png');
   // HDR加载器
   const rgbeLoader = new RGBELoader();
   // HDR贴图
-  rgbeLoader.load('/public/texture/Alex_Hart-Nature_Lab_Bones_2k.hdr', (envMap) => {
+  rgbeLoader.load('/public/textures/Alex_Hart-Nature_Lab_Bones_2k.hdr', (envMap) => {
     // 球形映射
     envMap.mapping = THREE.EquirectangularReflectionMapping;
     // 环境贴图
@@ -61,12 +61,12 @@ const init = () => {
     planeMaterial.envMap = envMap; 
   })
   // 高光贴图
-  const specularMap = loader.load('/public/texture/watercover/CityNewYork002_GLOSS_1K.jpg');
+  const specularMap = loader.load('/public/textures/watercover/CityNewYork002_GLOSS_1K.jpg');
 
   const planeGeometry = new THREE.PlaneGeometry(1,1,1,1);
   const planeMaterial = new THREE.MeshBasicMaterial({
     color: 0xffffff,
-    map: texture,
+    map: textures,
     // 透明
     transparent: true,
     // 环境遮挡贴图(突出沟壑和阴影部分) 
@@ -83,11 +83,11 @@ const init = () => {
   gui.add(planeMaterial, 'aoMapIntensity').min(0).max(1).name('透明');
   gui.add(planeMaterial, 'reflectivity').min(0).max(1).name('反射效果');
   gui.add(planeMaterial, 'lightMapIntensity').min(0).max(1).name('光照强度');
-  gui.add(texture, 'colorSpace', {
+  gui.add(textures, 'colorSpace', {
     sRGB: THREE.SRGBColorSpace,
     Linear: THREE.LinearSRGBColorSpace
   }).name('纹理彩色空间').onChange(() => {
-    texture.needsUpdate = true;
+    textures.needsUpdate = true;
   });
   
 
