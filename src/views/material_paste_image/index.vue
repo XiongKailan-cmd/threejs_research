@@ -69,8 +69,6 @@ const init = () => {
     map: textures,
     // 透明
     transparent: true,
-    // 环境遮挡贴图(突出沟壑和阴影部分) 
-    aoMap: aoMap,
     // 透明度贴图（黑色不显示 灰色0.5 白色显示）
     // alphaMap,
     side: THREE.DoubleSide,
@@ -83,6 +81,23 @@ const init = () => {
   gui.add(planeMaterial, 'aoMapIntensity').min(0).max(1).name('透明');
   gui.add(planeMaterial, 'reflectivity').min(0).max(1).name('反射效果');
   gui.add(planeMaterial, 'lightMapIntensity').min(0).max(1).name('光照强度');
+
+  // 环境遮挡贴图(突出沟壑和阴影部分)
+  const aoMapFolder = gui.addFolder('环境遮挡贴图');
+  const aoMapControls = {
+    showAO: () => {
+      planeMaterial.aoMap = aoMap;
+      planeMaterial.needsUpdate = true;
+    },
+    hideAO: () => {
+      planeMaterial.aoMap = null;
+      planeMaterial.needsUpdate = true;
+    }
+  }
+  aoMapFolder.add(aoMapControls, 'showAO').name('显示环境遮挡贴图')
+  aoMapFolder.add(aoMapControls, 'hideAO').name('隐藏环境遮挡贴图')
+  aoMapFolder.add(planeMaterial, 'aoMapIntensity').min(0).max(1).name('环境遮挡贴图强度')
+  
   gui.add(textures, 'colorSpace', {
     sRGB: THREE.SRGBColorSpace,
     Linear: THREE.LinearSRGBColorSpace

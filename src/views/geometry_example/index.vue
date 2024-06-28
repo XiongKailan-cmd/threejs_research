@@ -34,8 +34,6 @@ const baseMaterail = () =>{
   renderer.setSize(width, height)
   box.value.appendChild(renderer.domElement)
 
-  
-
   const axesHelper = new THREE.AxesHelper(5)
   scene.add(axesHelper)
 
