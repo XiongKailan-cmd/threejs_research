@@ -8,7 +8,8 @@ const router = useRouter();
 const options = ref([]);
 
 onBeforeMount(() => {
-  options.value = routes[0].children.map((route) => ({
+
+  options.value = routes.map((route) => ({
     content: route.meta.title + "  " + route.path,
     value: route.path,
   }));

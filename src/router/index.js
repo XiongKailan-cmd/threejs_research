@@ -3,7 +3,7 @@ import { getRouterName } from '../utils/index.js';
 
 const files = import.meta.globEager('../views/**/*.vue');
 
-const targetRoute = [];
+let targetRoute = [];
 
 for (const key in files) {
   const routerItem = {};
@@ -18,15 +18,7 @@ for (const key in files) {
 }
 
 
-export const routes = [
-  {
-    path: '/',
-    name: 'Base',
-    redirect: '/BoxTest',
-    component: () => import('../layout/index.vue'),
-    children: [...targetRoute]
-  }
-];
+export const routes = [...targetRoute];
 
 
 export const router = createRouter({

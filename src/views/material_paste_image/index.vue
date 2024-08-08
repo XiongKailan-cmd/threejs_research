@@ -13,13 +13,15 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { GUI } from 'three/examples/jsm/libs/lil-gui.module.min.js';
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
-import { onMounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 
 const box = ref(null)
 
 onMounted(() => {
   init();
 })
+
+const gui = new GUI();
 
 const init = () => {
 
@@ -35,8 +37,6 @@ const init = () => {
   const renderer = new THREE.WebGLRenderer()
   renderer.setSize(width, height)
   box.value.appendChild(renderer.domElement)
-
-  const gui = new GUI();
 
   // 纹理加载器
   const loader = new THREE.TextureLoader(); 
@@ -58,6 +58,9 @@ const init = () => {
     envMap.mapping = THREE.EquirectangularReflectionMapping;
     // 环境贴图
     scene.background = envMap;
+    // 场景环境贴图
+    scene.environment = envMap;
+
     planeMaterial.envMap = envMap; 
   })
   // 高光贴图
@@ -81,7 +84,6 @@ const init = () => {
   gui.add(planeMaterial, 'aoMapIntensity').min(0).max(1).name('透明');
   gui.add(planeMaterial, 'reflectivity').min(0).max(1).name('反射效果');
   gui.add(planeMaterial, 'lightMapIntensity').min(0).max(1).name('光照强度');
-
   // 环境遮挡贴图(突出沟壑和阴影部分)
   const aoMapFolder = gui.addFolder('环境遮挡贴图');
   const aoMapControls = {
@@ -98,6 +100,7 @@ const init = () => {
   aoMapFolder.add(aoMapControls, 'hideAO').name('隐藏环境遮挡贴图')
   aoMapFolder.add(planeMaterial, 'aoMapIntensity').min(0).max(1).name('环境遮挡贴图强度')
   
+  // 
   gui.add(textures, 'colorSpace', {
     sRGB: THREE.SRGBColorSpace,
     Linear: THREE.LinearSRGBColorSpace
@@ -124,6 +127,10 @@ const init = () => {
 
   animate()
 }
+
+onUnmounted(() => {
+  gui && gui.destroy()
+})
 
 </script>
 
